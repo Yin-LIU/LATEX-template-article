@@ -57,9 +57,15 @@
   \setaddedmarkup{\textcolor{black}{#1}}
   \setdeletedmarkup{}
   \presetkeys{todonotes}{disable}{}
+  \iflocal
+  \renewcommand{\comment}[2][]{%Empty definition
+  }
+  \fi
 \else
   \iflocal
     \setdeletedmarkup{\textcolor{purple!20}{(#1)}}
+    \RequirePackage{todonotes}
+    \renewcommand{\comment}[2][]{\todo{#2}}
   \else
     \setdeletedmarkup{\IfIsColored{\color{authorcolor!20}}((#1)}
   \fi
