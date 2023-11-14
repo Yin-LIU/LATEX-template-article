@@ -1,0 +1,96 @@
+\documentclass[usletter,12pt]{article}
+\usepackage[final]{basic_template}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Natbib for bibliography management with number citations
+\usepackage[numbers]{natbib}
+
+% Define authors for 'changes' package, with specific colors for each ID
+\definechangesauthor[color=purple]{ID1}
+\definechangesauthor[color=blue]{ID2}
+% \setuptodonotes{inline} % set if comment is inline or in the margin
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Document title
+\title{\textbf{Title Here}}
+
+% Authors and affiliations with email addresses
+\author[ ]{\textbf{Author 1}}
+\author[$\ddag$]{\textbf{Author 2}}
+\author[*]{\textbf{Author 3}}
+
+\affil[ ]{Department of XXX, University of XXX \protect\\
+          \texttt{\{email1, email3\}@xxx.edu}}
+\affil[$\ddag$]{Department of YYY, University of YYY \protect\\
+          \texttt{email2@yyy.edu}}
+
+\affil[*]{Department of ZZZ, University of YYY \protect\\
+          \texttt{email2@yyy.edu}}
+
+% Formatting for author separators
+\renewcommand\Authsep{\quad}
+\renewcommand\Authands{\quad}
+
+% Set the date to the current date
+\date{\today}
+
+% Begin the actual document content
+\begin{document}
+
+% Create the title
+\maketitle
+
+% Abstract section
+\begin{abstract}
+Abstract text here.
+\end{abstract}
+
+% Uncomment if a table of contents is needed
+%\newpage
+%\tableofcontents
+
+
+
+\section{Introduction}
+
+The \texttt{changes} package is a powerful tool for tracking and highlighting changes in your LaTeX documents. It allows you to define authors with unique IDs and colors, making it easy to identify who made each modification. When using the package with \texttt{\textbackslash usepackage\{basic\_template\}}, you can apply the following commands to display changes:
+
+
+\begin{itemize}
+    \item \texttt{\textbackslash added[id=ID1]\{added by ID1\}} \added[id=ID1]{added by ID1}
+    \item \texttt{\textbackslash deleted[id=ID1]\{Deleted by ID1\}} \deleted[id=ID1]{Deleted by ID1}
+    \item \texttt{\textbackslash replaced[id=ID1]\{replace new\}\{with deleted part\}} \replaced[id=ID1]{replace new}{with deleted part}
+    \item \texttt{\textbackslash added[id=ID2]\{added by ID2\}} \added[id=ID2]{added by ID2}
+    \item \texttt{\textbackslash deleted[id=ID2]\{Deleted by ID2\}} \deleted[id=ID2]{Deleted by ID2}
+    \item \texttt{\textbackslash replaced[id=ID2]\{replace new\}\{with deleted part\}} \replaced[id=ID2]{replace new}{with deleted part}
+    \item \texttt{\textbackslash comment[id=ID1]\{comment by ID1\}} \comment[id=ID1]{Comment by ID1}
+
+\end{itemize}
+
+When using \texttt{\textbackslash usepackage[final]\{basic\_template\}}, all colors will be set to black, and removed parts will not be displayed, providing a clean and final version of the document.
+
+
+Example of citation: \citep{Cyrus2018RobustAcceleratedOptimization}
+
+\newpage
+\bibliographystyle{plainnat}
+\bibliography{refs.bib}
+
+
+\newpage
+\begin{appendices}
+\section{appendix section}
+
+\end{appendices}
+
+
+
+
+\end{document}
+
+
+
+

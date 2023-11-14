@@ -1,0 +1,104 @@
+% Basic Template Package
+\ProvidesPackage{basic_template}
+
+% Declare options and their default values
+\newif\iflocal
+\newif\iffinal
+\localfalse
+\finalfalse
+
+% Declare the 'local' and 'final' options
+\DeclareOption{local}{\localtrue}
+\DeclareOption{final}{\finaltrue}
+
+% Set default options
+\ExecuteOptions{final=false,local=false}
+
+% Process the given options
+\ProcessOptions\relax
+
+% Load required packages
+\RequirePackage{geometry}
+\RequirePackage{authblk}
+\RequirePackage{amsmath,amssymb,amsthm}
+\RequirePackage{xr-hyper,hyperref}
+\RequirePackage[dvipsnames]{xcolor}
+\RequirePackage{algorithm, algorithmic}
+\RequirePackage{caption, subcaption}
+\RequirePackage{enumerate,enumitem}
+\RequirePackage[page,title]{appendix}
+\RequirePackage{subfiles}
+\RequirePackage{titletoc}
+\RequirePackage{graphicx}
+\RequirePackage[capitalize,noabbrev]{cleveref}
+\RequirePackage[authormarkup=none]{changes}
+\RequirePackage{crossreftools}
+
+% Setup for the geometry package
+\AtBeginDocument{
+  \newgeometry{
+    textheight=9in,
+    textwidth=6.5in,
+    top=1in,
+    headheight=14pt,
+    headsep=25pt,
+    footskip=30pt
+  }
+}
+
+% Graphics path
+\graphicspath{{Figures/}}
+
+% Allow display breaks in multiline equations
+\allowdisplaybreaks
+
+% Settings for the 'changes' package based on options
+\iffinal
+  \setaddedmarkup{\textcolor{black}{#1}}
+  \setdeletedmarkup{}
+  \presetkeys{todonotes}{disable}{}
+\else
+  \iflocal
+    \setdeletedmarkup{\textcolor{purple!20}{(#1)}}
+  \else
+    \setdeletedmarkup{\IfIsColored{\color{authorcolor!20}}((#1)}
+  \fi
+\fi
+
+% Commands and environment settings based on the 'local' option
+\iflocal
+  % Exclude commands meant for global use
+\else
+  % Define commands and settings for non-local use
+  \crefname{assumption}{Assumption}{Assumptions}
+  \AtBeginEnvironment{appendices}{\crefalias{section}{appendix},\crefalias{subsection}{appendix}}
+\fi
+
+% Input custom definitions file (this should point to an actual file 'defs.tex')
+% Uncomment the following line if 'defs.tex' exists and is required
+\input{defs.tex}
+
+% Define theorem styles and structures
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{assumption}[theorem]{Assumption}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% Setup hyperref package to manage bookmarks
+\hypersetup{
+  bookmarksnumbered, bookmarksopen=true, bookmarksopenlevel=1,
+}
+
+% Deal with section title cref warning
+\pdfstringdefDisableCommands{
+  \let\Cref\crtCref
+  \let\cref\crtcref
+}
