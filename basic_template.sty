@@ -21,6 +21,7 @@
 \RequirePackage{geometry}
 \RequirePackage{authblk}
 \RequirePackage{amsmath,amssymb,amsthm}
+\RequirePackage{mathtools}
 \RequirePackage{xr-hyper,hyperref}
 \RequirePackage[dvipsnames]{xcolor}
 \RequirePackage{algorithm, algorithmic}
@@ -77,7 +78,7 @@
 \else
   % Define commands and settings for non-local use
   \crefname{assumption}{Assumption}{Assumptions}
-  \AtBeginEnvironment{appendices}{\crefalias{section}{appendix}\crefalias{subsection}{appendix}}
+  \AtBeginEnvironment{appendices}{\crefalias{section}{appendix},\crefalias{subsection}{appendix}}
 \fi
 
 % Input custom definitions file (this should point to an actual file 'defs.tex')

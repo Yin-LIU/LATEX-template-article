@@ -1,3 +1,6 @@
+\newcommand{\seq}[1]{\{ #1 \}}
+\def\b0{\mathbf{0}}
+
 % Math symbols and related macros
 \newcommand{\grad}{\nabla}
 \newcommand{\noi}{\noindent}
@@ -158,8 +161,11 @@
 \DeclareMathOperator*{\argmax}{argmax}
 \DeclareMathOperator{\Tr}{Tr}
 \DeclareMathOperator{\Rank}{rank}
+\DeclareMathOperator{\st}{s.t.}
+\DeclareMathOperator{\diag}{diag}
 \def\fprod#1{\left\langle#1\right\rangle}
 \def\prox#1{\mathbf{prox}_{#1}}
+
 
 \newcommand{\dist}{\mathop{\bf dist{}}}
 \newcommand{\dom}{\mathop{\bf dom}}
@@ -174,7 +180,6 @@
 \newcommand{\eg}{{e.g.,\ }}
 \newcommand{\ie}{{i.e.,\ }}
 \newcommand{\etc}{{etc.\ }}
-
 % colored text
 \def\red#1{\textcolor{red}{#1}}
 \def\green#1{\textcolor{green}{#1}}
