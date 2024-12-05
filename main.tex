@@ -1,23 +1,22 @@
 \documentclass[usletter,12pt]{article}
-\usepackage[final]{basic_template}
-
-
+\usepackage{basic_template}
+\input{defs.tex}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Natbib for bibliography management with number citations
+% Use Natbib for bibliography management with numerical citations
 \usepackage[numbers]{natbib}
 
-% Define authors for 'changes' package, with specific colors for each ID
-\definechangesauthor[color=purple]{ID1}
-\definechangesauthor[color=blue]{ID2}
-% \setuptodonotes{inline} % set if comment is inline or in the margin
+% Define authors for the 'changes' package with specific colors for each ID
+\defineauthor{ID1}{purple}
+\defineauthor{ID2}{teal}
+
+% \setuptodonotes{inline} % Uncomment if you want comments to appear inline or in the margin
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
 % Document title
-\title{\textbf{Title Here}}
+\title{\textbf{Your Document Title Here}}
 
-% Authors and affiliations with email addresses
+% Author and affiliation section with email addresses
 \author[ ]{\textbf{Author 1}}
 \author[$\ddag$]{\textbf{Author 2}}
 \author[*]{\textbf{Author 3}}
@@ -30,67 +29,75 @@
 \affil[*]{Department of ZZZ, University of YYY \protect\\
           \texttt{email2@yyy.edu}}
 
-% Formatting for author separators
+% Adjust the spacing between author names
 \renewcommand\Authsep{\quad}
 \renewcommand\Authands{\quad}
 
-% Set the date to the current date
+% Set the document's date to the current date
 \date{\today}
 
-% Begin the actual document content
+% Begin the document content
 \begin{document}
 
-% Create the title
+% Display the title
 \maketitle
 
 % Abstract section
 \begin{abstract}
-Abstract text here.
+    Your abstract text goes here. The abstract provides a concise summary of your paper's goals, methods, results, and conclusions.
 \end{abstract}
 
-% Uncomment if a table of contents is needed
+% Uncomment the following lines if a table of contents is required
 %\newpage
 %\tableofcontents
 
-
-
 \section{Introduction}
 
-The \texttt{changes} package is a powerful tool for tracking and highlighting changes in your LaTeX documents. It allows you to define authors with unique IDs and colors, making it easy to identify who made each modification. When using the package with \texttt{\textbackslash usepackage\{basic\_template\}}, you can apply the following commands to display changes:
-
+The \texttt{changes} package is a useful tool for tracking and highlighting changes made in your LaTeX document. It allows for defining authors with unique IDs and colors to easily identify the person responsible for each modification. When using this package alongside \texttt{\textbackslash usepackage\{basic\_template\}}, the following commands can be used to display changes clearly:
 
 \begin{itemize}
-    \item \texttt{\textbackslash added[id=ID1]\{added by ID1\}} \added[id=ID1]{added by ID1}
-    \item \texttt{\textbackslash deleted[id=ID1]\{Deleted by ID1\}} \deleted[id=ID1]{Deleted by ID1}
-    \item \texttt{\textbackslash replaced[id=ID1]\{replace new\}\{with deleted part\}} \replaced[id=ID1]{replace new}{with deleted part}
-    \item \texttt{\textbackslash added[id=ID2]\{added by ID2\}} \added[id=ID2]{added by ID2}
-    \item \texttt{\textbackslash deleted[id=ID2]\{Deleted by ID2\}} \deleted[id=ID2]{Deleted by ID2}
-    \item \texttt{\textbackslash replaced[id=ID2]\{replace new\}\{with deleted part\}} \replaced[id=ID2]{replace new}{with deleted part}
-    \item \texttt{\textbackslash comment[id=ID1]\{comment by ID1\}} \comment[id=ID1]{Comment by ID1}
-
+    \item \texttt{\textbackslash added[ID1]\{Text added by ID1\}} \added[ID1]{Text added by ID1}
+    \item \texttt{\textbackslash deleted[ID1]\{Text deleted by ID1\}} \deleted[ID1]{Text deleted by ID1}
+    \item \texttt{\textbackslash replaced[ID1]\{New text\}\{Old text\}} \replaced[ID1]{New text}{Old text}
+    \item \texttt{\textbackslash added[ID2]\{Text added by ID2\}} \added[ID2]{Text added by ID2}
+    \item \texttt{\textbackslash deleted[ID2]\{Text deleted by ID2\}} \deleted[ID2]{Text deleted by ID2}
+    \item \texttt{\textbackslash replaced[ID2]\{New text\}\{Old text\}} \replaced[ID2]{New text}{Old text}
+    \item \texttt{\textbackslash note[ID1]\{Comment by ID1\}} \note[ID1]{Comment by ID1}
+    \item If no author ID is assigned, the default color (blue) will be used. \added{The default color for changes is blue.}
 \end{itemize}
 
-When using \texttt{\textbackslash usepackage[final]\{basic\_template\}}, all colors will be set to black, and removed parts will not be displayed, providing a clean and final version of the document.
+These commands also work within mathematical expressions and across multiple paragraphs. For example:
 
+\added[ID1]{
+This is the first paragraph. 
 
-Example of citation: \citep{Cyrus2018RobustAcceleratedOptimization}
+This is the second paragraph.
+\begin{align*}
+    f(x) &= \frac{1}{2}x^2 \\
+    g(x) &= x^3
+\end{align*}
+}
+
+\replaced[ID1]{This is the new part}{This is the first deleted paragraph.
+
+This is the second paragraph.
+\begin{align*}
+    f(x) &= \frac{1}{2}x^2 \\
+    g(x) &= x^3
+\end{align*}}
+
+For citing references, you can use \citep{Cyrus2018RobustAcceleratedOptimization}.
 
 \newpage
+% Bibliography section
 \bibliographystyle{plainnat}
 \bibliography{refs.bib}
 
-
 \newpage
+% Appendices section
 \begin{appendices}
-\section{appendix section}
-
+\section{Appendix Section Title}
+% Additional appendices content here
 \end{appendices}
 
-
-
-
 \end{document}
-
-
-
-

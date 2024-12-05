@@ -1,29 +1,17 @@
-% Basic Template Package
-\ProvidesPackage{basic_template}
+% customchanges.sty
+% A custom LaTeX package for tracking changes with author-specific colors.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{customchanges}[2024/04/27 v1.0 Custom Changes Package]
 
-% Declare options and their default values
-\newif\iflocal
-\newif\iffinal
-\localfalse
-\finalfalse
-
-% Declare the 'local' and 'final' options
-\DeclareOption{local}{\localtrue}
-\DeclareOption{final}{\finaltrue}
-
-% Set default options
-\ExecuteOptions{final=false,local=false}
-
-% Process the given options
-\ProcessOptions\relax
-
-% Load required packages
+% Required packages
+\RequirePackage[svgnames,x11names,dvipsnames]{xcolor} % Extended color support
+\RequirePackage{xparse}
+\RequirePackage[colorinlistoftodos,prependcaption,textsize=small]{todonotes}
 \RequirePackage{geometry}
 \RequirePackage{authblk}
 \RequirePackage{amsmath,amssymb,amsthm}
 \RequirePackage{mathtools}
 \RequirePackage{xr-hyper,hyperref}
-\RequirePackage[dvipsnames]{xcolor}
 \RequirePackage{algorithm, algorithmic}
 \RequirePackage{caption, subcaption}
 \RequirePackage{enumerate,enumitem}
@@ -32,10 +20,9 @@
 \RequirePackage{titletoc}
 \RequirePackage{graphicx}
 \RequirePackage[capitalize,noabbrev]{cleveref}
-\RequirePackage[authormarkup=none]{changes}
 \RequirePackage{crossreftools}
 
-% Setup for the geometry package
+% Geometry setup
 \AtBeginDocument{
   \newgeometry{
     textheight=9in,
@@ -47,45 +34,30 @@
   }
 }
 
-% Graphics path
-\graphicspath{{Figures/}}
+\renewcommand\Authfont{\bfseries}
+\renewcommand\Affilfont{\mdseries \small}
 
-% Allow display breaks in multiline equations
-\allowdisplaybreaks
-
-% Settings for the 'changes' package based on options
-\iffinal
-  \setaddedmarkup{\textcolor{black}{#1}}
-  \setdeletedmarkup{}
-  \presetkeys{todonotes}{disable}{}
-  \iflocal
-  \renewcommand{\comment}[2][]{%Empty definition
+%% Custom title formatting
+\makeatletter
+\renewcommand{\@maketitle}{%
+  \vbox{%
+    \vspace*{0in} % Adjust title height as needed
+    \hsize\textwidth
+    \linewidth\hsize
+    \vskip 0.1in
+    \centering
+    {\LARGE  \textbf{\@title}\par} % Title
+    \vskip 0.3in
+    {\@author} % Author in normal size
+    \vskip 0.2in
+    \@date % Date
+    \vskip 0.3in
   }
-  \fi
-\else
-  \iflocal
-    \setdeletedmarkup{\textcolor{purple!20}{(#1)}}
-    \RequirePackage{todonotes}
-    \renewcommand{\comment}[2][]{\todo{#2}}
-  \else
-    \setdeletedmarkup{\IfIsColored{\color{authorcolor!20}}((#1)}
-  \fi
-\fi
+}
+\makeatother
 
-% Commands and environment settings based on the 'local' option
-\iflocal
-  % Exclude commands meant for global use
-\else
-  % Define commands and settings for non-local use
-  \crefname{assumption}{Assumption}{Assumptions}
-  \AtBeginEnvironment{appendices}{\crefalias{section}{appendix},\crefalias{subsection}{appendix}}
-\fi
 
-% Input custom definitions file (this should point to an actual file 'defs.tex')
-% Uncomment the following line if 'defs.tex' exists and is required
-\input{defs.tex}
-
-% Define theorem styles and structures
+% Theorem styles
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{proposition}[theorem]{Proposition}
@@ -99,13 +71,83 @@
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 
-% Setup hyperref package to manage bookmarks
+% Hyperref setup
 \hypersetup{
-  bookmarksnumbered, bookmarksopen=true, bookmarksopenlevel=1,
+  bookmarksnumbered,
+  bookmarksopen=true,
+  bookmarksopenlevel=1,
 }
 
-% Deal with section title cref warning
+% Address cref warnings
 \pdfstringdefDisableCommands{
   \let\Cref\crtCref
   \let\cref\crtcref
 }
+
+% Author-specific change tracking
+\makeatletter
+% Define authors and associated colors
+\newcommand{\defineauthor}[2]{%
+    \@namedef{authorcolor@#1}{#2}%
+}
+
+% Added text
+\NewDocumentCommand{\added}{o +m}{%
+    \IfNoValueTF{#1}{%
+        {\color{blue}#2}%
+    }{%
+        \@ifundefined{authorcolor@#1}{%
+            \PackageError{customchanges}{Undefined author ID `#1'}{%
+                Please define the author using \string\defineauthor\{#1\}\{color\}.}%
+        }{%
+            {\color{\csname authorcolor@#1\endcsname}#2}%
+        }%
+    }%
+}
+
+% Replaced text
+\NewDocumentCommand{\replaced}{o +m +m}{%
+    \IfNoValueTF{#1}{%
+        {\color{blue}#2}{\color{blue!20}#3}%
+    }{%
+        \@ifundefined{authorcolor@#1}{%
+            \PackageError{customchanges}{Undefined author ID `#1'}{%
+                Please define the author using \string\defineauthor\{#1\}\{color\}.}%
+        }{%
+            {\color{\csname authorcolor@#1\endcsname}#2}%
+            {\color{\csname authorcolor@#1\endcsname!20}#3}%
+        }%
+    }%
+}
+
+% Deleted text
+\NewDocumentCommand{\deleted}{o +m}{%
+    \IfNoValueTF{#1}{%
+        {\color{blue!20}#2}%
+    }{%
+        \@ifundefined{authorcolor@#1}{%
+            \PackageError{customchanges}{Undefined author ID `#1'}{%
+                Please define the author using \string\defineauthor\{#1\}\{color\}.}%
+        }{%
+            {\color{\csname authorcolor@#1\endcsname!20}#2}%
+        }%
+    }%
+}
+
+% Notes
+\NewDocumentCommand{\note}{o +m}{%
+    \IfNoValueTF{#1}{%
+        \todo[linecolor=blue,backgroundcolor=blue!25]{#2}%
+    }{%
+        \@ifundefined{authorcolor@#1}{%
+            \PackageError{customchanges}{Undefined author ID `#1'}{%
+                Please define the author using \string\defineauthor\{#1\}\{color\}.}%
+        }{%
+            \todo[linecolor=\csname authorcolor@#1\endcsname,
+                 backgroundcolor=\csname authorcolor@#1\endcsname!25]{#2}%
+        }%
+    }%
+}
+\makeatother
+
+\endinput
