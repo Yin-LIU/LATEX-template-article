@@ -3,6 +3,14 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{customchanges}[2024/04/27 v1.0 Custom Changes Package]
 
+% Default setting for texifier is false
+\newif\iftexifier
+\texifierfalse
+
+% Check for the texifier option
+\DeclareOption{texifier}{\texifiertrue}
+\ProcessOptions\relax
+
 % Required packages
 \RequirePackage[svgnames,x11names,dvipsnames]{xcolor} % Extended color support
 \RequirePackage{xparse}
@@ -22,41 +30,7 @@
 \RequirePackage[capitalize,noabbrev]{cleveref}
 \RequirePackage{crossreftools}
 
-% Geometry setup
-\AtBeginDocument{
-  \newgeometry{
-    textheight=9in,
-    textwidth=6.5in,
-    top=1in,
-    headheight=14pt,
-    headsep=25pt,
-    footskip=30pt
-  }
-}
-
-\renewcommand\Authfont{\bfseries}
-\renewcommand\Affilfont{\mdseries \small}
-
-%% Custom title formatting
-\makeatletter
-\renewcommand{\@maketitle}{%
-  \vbox{%
-    \vspace*{0in} % Adjust title height as needed
-    \hsize\textwidth
-    \linewidth\hsize
-    \vskip 0.1in
-    \centering
-    {\LARGE  \textbf{\@title}\par} % Title
-    \vskip 0.3in
-    {\@author} % Author in normal size
-    \vskip 0.2in
-    \@date % Date
-    \vskip 0.3in
-  }
-}
-\makeatother
-
-
+\graphicspath{{Figures/}}
 % Theorem styles
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[section]
@@ -71,6 +45,21 @@
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 
+% Modify behavior if texifier=true
+\iftexifier
+    % Omit these commands when texifier=true
+\else
+    \crefname{assumption}{Assumption}{Assumptions}
+    \AtBeginEnvironment{appendices}{
+        \crefalias{section}{appendix}
+        \crefalias{subsection}{appendix}
+    }
+\fi
+
+% Allow display breaks in multiline equations
+\allowdisplaybreaks
+
+
 % Hyperref setup
 \hypersetup{
   bookmarksnumbered,
@@ -78,11 +67,186 @@
   bookmarksopenlevel=1,
 }
 
+
+% Geometry setup
+\AtBeginDocument{
+  \newgeometry{
+    textheight=9in,
+    textwidth=6.5in,
+    top=1in,
+    headheight=14pt,
+    headsep=25pt,
+    footskip=30pt
+  }
+}
+
+
+
+
+
+% font sizes with reduced leading
+% \renewcommand{\normalsize}{%
+%   \@setfontsize\normalsize\@xpt\@xipt
+%   \abovedisplayskip      7\p@ \@plus 2\p@ \@minus 5\p@
+%   \abovedisplayshortskip \z@ \@plus 3\p@
+%   \belowdisplayskip      \abovedisplayskip
+%   \belowdisplayshortskip 4\p@ \@plus 3\p@ \@minus 3\p@
+% }
+% \normalsize
+% \renewcommand{\small}{%
+%   \@setfontsize\small\@ixpt\@xpt
+%   \abovedisplayskip      6\p@ \@plus 1.5\p@ \@minus 4\p@
+%   \abovedisplayshortskip \z@  \@plus 2\p@
+%   \belowdisplayskip      \abovedisplayskip
+%   \belowdisplayshortskip 3\p@ \@plus 2\p@   \@minus 2\p@
+% }
+% \renewcommand{\footnotesize}{\@setfontsize\footnotesize\@ixpt\@xpt}
+% \renewcommand{\scriptsize}{\@setfontsize\scriptsize\@viipt\@viiipt}
+% \renewcommand{\tiny}{\@setfontsize\tiny\@vipt\@viipt}
+% \renewcommand{\large}{\@setfontsize\large\@xiipt{14}}
+% \renewcommand{\Large}{\@setfontsize\Large\@xivpt{16}}
+% \renewcommand{\LARGE}{\@setfontsize\LARGE\@xviipt{20}}
+% \renewcommand{\huge}{\@setfontsize\huge\@xxpt{23}}
+% \renewcommand{\Huge}{\@setfontsize\Huge\@xxvpt{28}}
+
+% % sections with less space
+\providecommand{\section}{}
+\renewcommand{\section}{%
+  \@startsection{section}{1}{\z@}%
+                {-2.0ex \@plus -0.5ex \@minus -0.2ex}%
+                { 1.5ex \@plus  0.3ex \@minus  0.2ex}%
+                {\large\bf\raggedright}%
+}
+\providecommand{\subsection}{}
+\renewcommand{\subsection}{%
+  \@startsection{subsection}{2}{\z@}%
+                {-1.8ex \@plus -0.5ex \@minus -0.2ex}%
+                { 0.8ex \@plus  0.2ex}%
+                {\normalsize\bf\raggedright}%
+}
+\providecommand{\subsubsection}{}
+\renewcommand{\subsubsection}{%
+  \@startsection{subsubsection}{3}{\z@}%
+                {-1.5ex \@plus -0.5ex \@minus -0.2ex}%
+                { 0.5ex \@plus  0.2ex}%
+                {\normalsize\bf\raggedright}%
+}
+\providecommand{\paragraph}{}
+\renewcommand{\paragraph}{%
+  \@startsection{paragraph}{4}{\z@}%
+                {1.5ex \@plus 0.5ex \@minus 0.2ex}%
+                {-1em}%
+                {\normalsize\bf}%
+}
+\providecommand{\subparagraph}{}
+\renewcommand{\subparagraph}{%
+  \@startsection{subparagraph}{5}{\z@}%
+                {1.5ex \@plus 0.5ex \@minus 0.2ex}%
+                {-1em}%
+                {\normalsize\bf}%
+}
+\providecommand{\subsubsubsection}{}
+\renewcommand{\subsubsubsection}{%
+  \vskip5pt{\noindent\normalsize\rm\raggedright}%
+}
+
+% float placement
+\renewcommand{\topfraction      }{0.85}
+\renewcommand{\bottomfraction   }{0.4}
+\renewcommand{\textfraction     }{0.1}
+\renewcommand{\floatpagefraction}{0.7}
+
+\newlength{\@abovecaptionskip}\setlength{\@abovecaptionskip}{7\p@}
+\newlength{\@belowcaptionskip}\setlength{\@belowcaptionskip}{\z@}
+
+\setlength{\abovecaptionskip}{\@abovecaptionskip}
+\setlength{\belowcaptionskip}{\@belowcaptionskip}
+
+% swap above/belowcaptionskip lengths for tables
+\renewenvironment{table}
+  {\setlength{\abovecaptionskip}{\@belowcaptionskip}%
+   \setlength{\belowcaptionskip}{\@abovecaptionskip}%
+   \@float{table}}
+  {\end@float}
+
+% footnote formatting
+\setlength{\footnotesep }{6.65\p@}
+\setlength{\skip\footins}{9\p@ \@plus 4\p@ \@minus 2\p@}
+\renewcommand{\footnoterule}{\kern-3\p@ \hrule width 12pc \kern 2.6\p@}
+\setcounter{footnote}{0}
+
+% paragraph formatting
+\setlength{\parindent}{\z@}
+\setlength{\parskip  }{5.5\p@}
+
+% list formatting
+\setlength{\topsep       }{4\p@ \@plus 1\p@   \@minus 2\p@}
+\setlength{\partopsep    }{1\p@ \@plus 0.5\p@ \@minus 0.5\p@}
+\setlength{\itemsep      }{2\p@ \@plus 1\p@   \@minus 0.5\p@}
+\setlength{\parsep       }{2\p@ \@plus 1\p@   \@minus 0.5\p@}
+\setlength{\leftmargin   }{3pc}
+\setlength{\leftmargini  }{\leftmargin}
+\setlength{\leftmarginii }{2em}
+\setlength{\leftmarginiii}{1.5em}
+\setlength{\leftmarginiv }{1.0em}
+\setlength{\leftmarginv  }{0.5em}
+\def\@listi  {\leftmargin\leftmargini}
+\def\@listii {\leftmargin\leftmarginii
+              \labelwidth\leftmarginii
+              \advance\labelwidth-\labelsep
+              \topsep  2\p@ \@plus 1\p@    \@minus 0.5\p@
+              \parsep  1\p@ \@plus 0.5\p@ \@minus 0.5\p@
+              \itemsep \parsep}
+\def\@listiii{\leftmargin\leftmarginiii
+              \labelwidth\leftmarginiii
+              \advance\labelwidth-\labelsep
+              \topsep    1\p@ \@plus 0.5\p@ \@minus 0.5\p@
+              \parsep    \z@
+              \partopsep 0.5\p@ \@plus 0\p@ \@minus 0.5\p@
+              \itemsep \topsep}
+\def\@listiv {\leftmargin\leftmarginiv
+              \labelwidth\leftmarginiv
+              \advance\labelwidth-\labelsep}
+\def\@listv  {\leftmargin\leftmarginv
+              \labelwidth\leftmarginv
+              \advance\labelwidth-\labelsep}
+\def\@listvi {\leftmargin\leftmarginvi
+              \labelwidth\leftmarginvi
+              \advance\labelwidth-\labelsep}
+
+
+\renewcommand\Authfont{\bfseries}
+\renewcommand\Affilfont{\mdseries \small}
+
+%% Custom title formatting
+\makeatletter
+\renewcommand{\@maketitle}{%
+  \vbox{%
+    % \vspace*{0in} % Adjust title height as needed
+    \hsize\textwidth
+    \linewidth\hsize
+    \vskip 0.1in
+    \centering
+    {\Large  \textbf{\@title}\par} % Title
+    \vskip 0.2in
+    {\@author} % Author in normal size
+    \vskip 0.1in
+    \@date % Date
+    \vskip 0.1in
+  }
+}
+\makeatother
+
+
+
+
 % Address cref warnings
 \pdfstringdefDisableCommands{
   \let\Cref\crtCref
   \let\cref\crtcref
 }
+
+
 
 % Author-specific change tracking
 \makeatletter

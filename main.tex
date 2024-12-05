@@ -53,8 +53,17 @@
 
 \section{Introduction}
 
-The \texttt{changes} package is a useful tool for tracking and highlighting changes made in your LaTeX document. It allows for defining authors with unique IDs and colors to easily identify the person responsible for each modification. When using this package alongside \texttt{\textbackslash usepackage\{basic\_template\}}, the following commands can be used to display changes clearly:
+This template includes essential packages for paper writing and incorporates ideas from the changes package. It allows authors to be defined with unique IDs and colors, making it easy to identify who is responsible for each modification. When using this package, you can load it with the following command:
 
+\texttt{\textbackslash usepackage\{basic\_template\}}.
+
+If you want to  compile the document with real-time preview in Texifier, use the command 
+
+\texttt{\textbackslash [texifier] usepackage\{basic\_template\}}.
+
+But formatting may be incorrect due to conflicts with Texifier's functionality).
+
+With this package, the following commands can be used to clearly display changes made to the document:
 \begin{itemize}
     \item \texttt{\textbackslash added[ID1]\{Text added by ID1\}} \added[ID1]{Text added by ID1}
     \item \texttt{\textbackslash deleted[ID1]\{Text deleted by ID1\}} \deleted[ID1]{Text deleted by ID1}
