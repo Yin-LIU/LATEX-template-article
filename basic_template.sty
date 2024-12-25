@@ -16,7 +16,7 @@
 \RequirePackage{xparse}
 \RequirePackage[colorinlistoftodos,prependcaption,textsize=small]{todonotes}
 \RequirePackage{geometry}
-\RequirePackage{authblk}
+% \RequirePackage{authblk}
 \RequirePackage{amsmath,amssymb,amsthm}
 \RequirePackage{mathtools}
 \RequirePackage{xr-hyper,hyperref}
@@ -215,21 +215,23 @@
               \advance\labelwidth-\labelsep}
 
 
-\renewcommand\Authfont{\bfseries}
-\renewcommand\Affilfont{\mdseries \small}
+% \renewcommand\Authfont{\bfseries}
+% \renewcommand\Affilfont{\mdseries \small}
 
-%% Custom title formatting
+% Custom title formatting
 \makeatletter
 \renewcommand{\@maketitle}{%
   \vbox{%
-    % \vspace*{0in} % Adjust title height as needed
+    \vspace*{0in} % Adjust title height as needed
     \hsize\textwidth
     \linewidth\hsize
     \vskip 0.1in
     \centering
     {\Large  \textbf{\@title}\par} % Title
     \vskip 0.2in
-    {\@author} % Author in normal size
+    {\large\begin{tabular}{c} % Properly handle authors using a tabular environment
+      \@author
+    \end{tabular}}
     \vskip 0.1in
     \@date % Date
     \vskip 0.1in

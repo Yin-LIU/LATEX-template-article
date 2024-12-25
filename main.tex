@@ -12,32 +12,25 @@
 
 % \setuptodonotes{inline} % Uncomment if you want comments to appear inline or in the margin
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
 
 % Document title
 \title{\textbf{Your Document Title Here}}
 
-% Author and affiliation section with email addresses
-\author[ ]{\textbf{Author 1}}
-\author[$\ddag$]{\textbf{Author 2}}
-\author[*]{\textbf{Author 3}}
+% % Author and affiliation section with email addresses
 
-\affil[ ]{Department of XXX, University of XXX \protect\\
-          \texttt{\{email1, email3\}@xxx.edu}}
-\affil[$\ddag$]{Department of YYY, University of YYY \protect\\
-          \texttt{email2@yyy.edu}}
+\author{Author1\footnotemark[1] \and Author2\footnotemark[2]}
 
-\affil[*]{Department of ZZZ, University of YYY \protect\\
-          \texttt{email2@yyy.edu}}
+% \renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\footnotetext[1]{Affiliation for Author 1 \texttt{xxxxx@xx.com}}
+\footnotetext[2]{Affiliation for Author 2 \texttt{xxxxx@xx.com}}
 
-% Adjust the spacing between author names
-\renewcommand\Authsep{\quad}
-\renewcommand\Authands{\quad}
+% \renewcommand{\thefootnote}{\arabic{footnote}}
 
 % Set the document's date to the current date
 \date{\today}
 
 % Begin the document content
-\begin{document}
 
 % Display the title
 \maketitle
