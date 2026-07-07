@@ -300,20 +300,35 @@
     }%
 }
 
-% Notes
-\NewDocumentCommand{\note}{o +m}{%
+% % Notes
+% \NewDocumentCommand{\note}{o +m}{%
+%     \IfNoValueTF{#1}{%
+%         \todo[linecolor=blue,backgroundcolor=blue!25]{#2}%
+%     }{%
+%         \@ifundefined{authorcolor@#1}{%
+%             \PackageError{customchanges}{Undefined author ID `#1'}{%
+%                 Please define the author using \string\defineauthor\{#1\}\{color\}.}%
+%         }{%
+%             \todo[linecolor=\csname authorcolor@#1\endcsname,
+%                  backgroundcolor=\csname authorcolor@#1\endcsname!25]{#2}%
+%         }%
+%     }%
+% }
+
+\NewDocumentCommand{\note}{o O{} +m}{%
     \IfNoValueTF{#1}{%
-        \todo[linecolor=blue,backgroundcolor=blue!25]{#2}%
+        \todo[linecolor=blue,backgroundcolor=blue!25,#2]{#3}%
     }{%
         \@ifundefined{authorcolor@#1}{%
             \PackageError{customchanges}{Undefined author ID `#1'}{%
                 Please define the author using \string\defineauthor\{#1\}\{color\}.}%
         }{%
             \todo[linecolor=\csname authorcolor@#1\endcsname,
-                 backgroundcolor=\csname authorcolor@#1\endcsname!25]{#2}%
+                 backgroundcolor=\csname authorcolor@#1\endcsname!25,#2]{#3}%
         }%
     }%
 }
+
 \makeatother
 
 \endinput

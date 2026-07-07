@@ -46,6 +46,10 @@
 
 \section{Introduction}
 
+$$
+\mR^k \mE
+$$
+
 This template includes essential packages for paper writing and incorporates ideas from the changes package. It allows authors to be defined with unique IDs and colors, making it easy to identify who is responsible for each modification. When using this package, you can load it with the following command:
 
 \texttt{\textbackslash usepackage\{basic\_template\}}.
@@ -65,6 +69,7 @@ With this package, the following commands can be used to clearly display changes
     \item \texttt{\textbackslash deleted[ID2]\{Text deleted by ID2\}} \deleted[ID2]{Text deleted by ID2}
     \item \texttt{\textbackslash replaced[ID2]\{New text\}\{Old text\}} \replaced[ID2]{New text}{Old text}
     \item \texttt{\textbackslash note[ID1]\{Comment by ID1\}} \note[ID1]{Comment by ID1}
+    \item \texttt{\textbackslash note[ID1][inline]\{Inline Comment by ID1\}} \note[ID1][inline]{Inline Comment by ID1}
     \item If no author ID is assigned, the default color (blue) will be used. \added{The default color for changes is blue.}
 \end{itemize}
 
@@ -88,6 +93,25 @@ This is the second paragraph.
     g(x) &= x^3
 \end{align*}}
 
+\begin{theorem}
+    aaa
+\end{theorem}
+\begin{assumption}\label{asump:1}
+    this is an assumption
+\end{assumption}
+
+\cref{asump:1}
+
+
+\begin{table}[hbt]
+    \centering
+    \begin{tabular}{ccc}
+        a & b & a\\
+        c & d & a\\
+    \end{tabular}
+    \caption{\cref{asump:1} of xxx}
+    \label{tab:placeholder}
+\end{table}
 For citing references, you can use \citep{Cyrus2018RobustAcceleratedOptimization}.
 
 \newpage
