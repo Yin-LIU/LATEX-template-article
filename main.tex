@@ -90,6 +90,23 @@ This is the second paragraph.
     g(x) &= x^3
 \end{align*}}
 
+\subsection{Algorithm Example}
+
+\cref{alg:gd} shows a standard gradient descent routine written with \texttt{algpseudocode}.
+
+\begin{algorithm}[htbp]
+\caption{Gradient Descent}
+\label{alg:gd}
+\begin{algorithmic}[1]
+\Require Initial point $x_0$, stepsize $\eta>0$, number of iterations $T$
+\For{$k=0,1,\ldots,T-1$}
+    \State Compute $g_k=\nabla f(x_k)$
+    \State Update $x_{k+1}=x_k-\eta g_k$
+\EndFor
+\Ensure Final iterate $x_T$
+\end{algorithmic}
+\end{algorithm}
+
 \subsection{References and Appendices}
 
 Use the entries in \texttt{refs.bib} with Natbib commands:
