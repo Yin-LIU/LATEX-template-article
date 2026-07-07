@@ -1,10 +1,11 @@
-\documentclass[usletter,12pt]{article}
-\usepackage{basic_template}
-\input{defs.tex}
+\documentclass[letterpaper,12pt]{article}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Use Natbib for bibliography management with numerical citations
 \usepackage[numbers]{natbib}
+% Use \usepackage{basic_template} for the final compile.
+\usepackage[texifier]{basic_template}
+\input{defs.tex}
 
 % Define authors for the 'changes' package with specific colors for each ID
 \defineauthor{ID1}{purple}
@@ -17,8 +18,7 @@
 % Document title
 \title{\textbf{Your Document Title Here}}
 
-% % Author and affiliation section with email addresses
-
+% Author and affiliation section with email addresses
 \author{Author1\footnotemark[1] \and Author2\footnotemark[2]}
 
 % \renewcommand{\thefootnote}{\fnsymbol{footnote}}
@@ -37,7 +37,7 @@
 
 % Abstract section
 \begin{abstract}
-    Your abstract text goes here. The abstract provides a concise summary of your paper's goals, methods, results, and conclusions.
+    Replace this paragraph with a compact summary of the paper: the problem, the method, the main result, and the contribution. Keep it self-contained and avoid citations unless the venue allows them.
 \end{abstract}
 
 % Uncomment the following lines if a table of contents is required
@@ -46,29 +46,31 @@
 
 \section{Introduction}
 
-This template includes essential packages for paper writing and incorporates ideas from the changes package. It allows authors to be defined with unique IDs and colors, making it easy to identify who is responsible for each modification. When using this package, you can load it with the following command:
+This template collects the common setup used for article drafts: page layout, theorem environments, mathematics, algorithms, figures, appendices, references, and author-colored revision marks. For a final build, load the package with
 
-\texttt{\textbackslash usepackage\{basic\_template\}}.
+\verb|\usepackage{basic_template}|.
 
-If you want to  compile the document with real-time preview in Texifier, use the command 
+For live preview in Texifier, use
 
-\texttt{\textbackslash [texifier] usepackage\{basic\_template\}}.
+\verb|\usepackage[texifier]{basic_template}|.
 
-But formatting may be incorrect due to conflicts with Texifier's functionality).
+Texifier mode disables a small set of \texttt{cleveref} customizations that can conflict with the live TexpadTeX engine. In this mode, \verb|\cref| may use the default name for the \texttt{assumption} environment, and appendix section references may remain ordinary section references. For the final PDF, compile without the \texttt{texifier} option.
 
-With this package, the following commands can be used to clearly display changes made to the document:
+\subsection{Revision Marks}
+
+Define author IDs in the preamble with \verb|\defineauthor{ID}{color}|. The optional ID selects the display color; if no ID is given, blue is used.
 \begin{itemize}
-    \item \texttt{\textbackslash added[ID1]\{Text added by ID1\}} \added[ID1]{Text added by ID1}
-    \item \texttt{\textbackslash deleted[ID1]\{Text deleted by ID1\}} \deleted[ID1]{Text deleted by ID1}
-    \item \texttt{\textbackslash replaced[ID1]\{New text\}\{Old text\}} \replaced[ID1]{New text}{Old text}
-    \item \texttt{\textbackslash added[ID2]\{Text added by ID2\}} \added[ID2]{Text added by ID2}
-    \item \texttt{\textbackslash deleted[ID2]\{Text deleted by ID2\}} \deleted[ID2]{Text deleted by ID2}
-    \item \texttt{\textbackslash replaced[ID2]\{New text\}\{Old text\}} \replaced[ID2]{New text}{Old text}
-    \item \texttt{\textbackslash note[ID1]\{Comment by ID1\}} \note[ID1]{Comment by ID1}
+    \item \verb|\added[ID1]{Text added by ID1}| \added[ID1]{Text added by ID1}
+    \item \verb|\deleted[ID1]{Text deleted by ID1}| \deleted[ID1]{Text deleted by ID1}
+    \item \verb|\replaced[ID1]{New text}{Old text}| \replaced[ID1]{New text}{Old text}
+    \item \verb|\added[ID2]{Text added by ID2}| \added[ID2]{Text added by ID2}
+    \item \verb|\deleted[ID2]{Text deleted by ID2}| \deleted[ID2]{Text deleted by ID2}
+    \item \verb|\replaced[ID2]{New text}{Old text}| \replaced[ID2]{New text}{Old text}
+    \item \verb|\note[ID1]{Comment by ID1}| \note[ID1]{Comment by ID1}
     \item If no author ID is assigned, the default color (blue) will be used. \added{The default color for changes is blue.}
 \end{itemize}
 
-These commands also work within mathematical expressions and across multiple paragraphs. For example:
+The revision commands accept mathematical content and paragraph breaks:
 
 \added[ID1]{
 This is the first paragraph. 
@@ -88,7 +90,17 @@ This is the second paragraph.
     g(x) &= x^3
 \end{align*}}
 
-For citing references, you can use \citep{Cyrus2018RobustAcceleratedOptimization}.
+\subsection{References and Appendices}
+
+Use the entries in \texttt{refs.bib} with Natbib commands:
+\begin{itemize}
+    \item \verb|\citet{citekey}| for textual citations;
+    \item \verb|\citep{citekey}| for parenthetical citations;
+    \item \verb|\cite{citekey}| for the default citation style.
+\end{itemize}
+For example, \citet{Cyrus2018RobustAcceleratedOptimization} and \citep{Cyrus2018RobustAcceleratedOptimization} show textual and parenthetical citations.
+
+Appendix sections can be written inside the \texttt{appendices} environment near the end of the file. In the final build, the template aliases appendix section references through \texttt{cleveref}; in Texifier mode this alias is skipped for compatibility.
 
 \newpage
 % Bibliography section

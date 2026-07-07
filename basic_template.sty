@@ -1,19 +1,20 @@
-% customchanges.sty
-% A custom LaTeX package for tracking changes with author-specific colors.
+% basic_template.sty
+% A personal article template with common packages, formatting, and change tracking.
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{customchanges}[2024/04/27 v1.0 Custom Changes Package]
+\ProvidesPackage{basic_template}[2026/07/07 v1.0 Personal Article Template]
 
-% Default setting for texifier is false
-\newif\iftexifier
-\texifierfalse
+% Default setting for Texifier compatibility mode is false.
+\newif\ifbasictemplatetexifier
+\basictemplatetexifierfalse
 
-% Check for the texifier option
-\DeclareOption{texifier}{\texifiertrue}
+% Check for the texifier option.
+\DeclareOption{texifier}{\basictemplatetexifiertrue}
 \ProcessOptions\relax
 
 % Required packages
 \RequirePackage[svgnames,x11names,dvipsnames]{xcolor} % Extended color support
 \RequirePackage{xparse}
+\setlength{\marginparwidth}{2cm}
 \RequirePackage[colorinlistoftodos,prependcaption,textsize=small]{todonotes}
 \RequirePackage{geometry}
 % \RequirePackage{authblk}
@@ -27,6 +28,7 @@
 \RequirePackage{subfiles}
 \RequirePackage{titletoc}
 \RequirePackage{graphicx}
+\RequirePackage{etoolbox}
 \RequirePackage[capitalize,noabbrev]{cleveref}
 \RequirePackage{crossreftools}
 
@@ -45,9 +47,9 @@
 \theoremstyle{remark}
 \newtheorem{remark}[theorem]{Remark}
 
-% Modify behavior if texifier=true
-\iftexifier
-    % Omit these commands when texifier=true
+% Texifier's live TexpadTeX engine can fail on some cleveref hooks.
+\ifbasictemplatetexifier
+    \PackageInfo{basic_template}{Texifier compatibility mode is enabled}
 \else
     \crefname{assumption}{Assumption}{Assumptions}
     \AtBeginEnvironment{appendices}{
@@ -76,7 +78,8 @@
     top=1in,
     headheight=14pt,
     headsep=25pt,
-    footskip=30pt
+    footskip=30pt,
+    marginparwidth=2cm
   }
 }
 
@@ -242,11 +245,15 @@
 
 
 
-% Address cref warnings
-\pdfstringdefDisableCommands{
-  \let\Cref\crtCref
-  \let\cref\crtcref
-}
+% Address cref warnings in PDF strings. Skip in Texifier compatibility mode,
+% where this hook can confuse the live TexpadTeX engine.
+\ifbasictemplatetexifier
+\else
+    \pdfstringdefDisableCommands{
+      \let\Cref\crtCref
+      \let\cref\crtcref
+    }
+\fi
 
 
 
@@ -263,7 +270,7 @@
         {\color{blue}#2}%
     }{%
         \@ifundefined{authorcolor@#1}{%
-            \PackageError{customchanges}{Undefined author ID `#1'}{%
+            \PackageError{basic_template}{Undefined author ID `#1'}{%
                 Please define the author using \string\defineauthor\{#1\}\{color\}.}%
         }{%
             {\color{\csname authorcolor@#1\endcsname}#2}%
@@ -277,7 +284,7 @@
         {\color{blue}#2}{\color{blue!20}#3}%
     }{%
         \@ifundefined{authorcolor@#1}{%
-            \PackageError{customchanges}{Undefined author ID `#1'}{%
+            \PackageError{basic_template}{Undefined author ID `#1'}{%
                 Please define the author using \string\defineauthor\{#1\}\{color\}.}%
         }{%
             {\color{\csname authorcolor@#1\endcsname}#2}%
@@ -292,7 +299,7 @@
         {\color{blue!20}#2}%
     }{%
         \@ifundefined{authorcolor@#1}{%
-            \PackageError{customchanges}{Undefined author ID `#1'}{%
+            \PackageError{basic_template}{Undefined author ID `#1'}{%
                 Please define the author using \string\defineauthor\{#1\}\{color\}.}%
         }{%
             {\color{\csname authorcolor@#1\endcsname!20}#2}%
@@ -306,7 +313,7 @@
         \todo[linecolor=blue,backgroundcolor=blue!25]{#2}%
     }{%
         \@ifundefined{authorcolor@#1}{%
-            \PackageError{customchanges}{Undefined author ID `#1'}{%
+            \PackageError{basic_template}{Undefined author ID `#1'}{%
                 Please define the author using \string\defineauthor\{#1\}\{color\}.}%
         }{%
             \todo[linecolor=\csname authorcolor@#1\endcsname,
